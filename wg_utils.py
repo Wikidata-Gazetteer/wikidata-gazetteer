@@ -93,11 +93,15 @@ def get_entity_names(qids):
     # don't query for a qid more than once
     if qids_to_query:    
         url = "https://www.wikidata.org/w/api.php?action=wbgetentities&ids=" + "|".join(qids_to_query) + "&languages=en&format=json"
-        response_json = get(url).json()["entities"]
-        for qid in response_json:
-            value = safeget(response_json, qid, "labels", "en", "value")
-            result[qid] = value
-            qid2name[qid] = value
+        response_json = get(url).json()
+        if "entities" in response_json:
+            entities = response_json["entities"]
+            for qid in entities:
+                value = safeget(response_json, qid, "labels", "en", "value")
+                result[qid] = value
+                qid2name[qid] = value
+        else:
+            print("[get_entity_names] entities not in " + response_json)
             
     return result
        
