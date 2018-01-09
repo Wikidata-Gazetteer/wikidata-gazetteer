@@ -8,17 +8,17 @@ from wg_utils import *
 number_of_chunks = 50
 CHUNK = 16 * 1024
 
+decompressor = BZ2Decompressor()
+print("decompressor:", decompressor)
 
 req = urlopen('https://dumps.wikimedia.org/wikidatawiki/entities/latest-all.json.bz2')
+print("req:", req)
 
-decompressor = BZ2Decompressor()
 
 text = b""
 
 output_file = open("/tmp/wikidata-gazetteer.csv", "w")
 writer = writer(output_file, delimiter="\t", quotechar='"', quoting=QUOTE_ALL)
-
-#header = ["
 
 for n in range(number_of_chunks):
     chunk = req.read(CHUNK)
@@ -38,6 +38,7 @@ for n in range(number_of_chunks):
             entity_type = entity['type']
 
             primary_name = get_primary_name_from_entity(entity)
+            alternative_names = get_alternative_names_from_entity(entity, primary_name)
 
             if primary_name and "claims" in entity:
                 claims = entity["claims"]
@@ -52,15 +53,27 @@ for n in range(number_of_chunks):
                     else:
                         sitelinks = {}
 
-                    #elevation_as_string = safeget("P2044", 0, "mainsnak", "datavalue", "value", "amount")
-                    #elevation_as_number = float(elevation_as_string)
+                    elevation = get_prop(claims, 2044)
                     geonames_id = get_prop(claims, 1566)
                     population = get_prop(claims, 1082)
                     country = get_prop(claims, 17)
                     print("country:", country)
                     timezone = get_prop(claims, 421)
+                    #wikidata_classes = get_prop(claims, 31)
+                    wikidata_classes = get_instance_ofs(claims)
+                    print("wikidata_classes:", wikidata_classes)
                     print("timezone:", timezone)
-                    writer.writerow([primary_name, latitude, longitude])
+                    writer.writerow([
+                        primary_name,
+                        alternative_names,
+                        country,
+                        wikidata_classes,
+                        elevation,
+                        geonames_id,                        
+                        latitude,
+                        longitude,
+                        population,
+                    ])
                     
                                     
 
