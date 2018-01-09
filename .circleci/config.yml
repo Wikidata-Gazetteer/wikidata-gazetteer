@@ -23,7 +23,7 @@ jobs:
     docker:
       -image: python:latest
     steps:
-      -run:
+      - run:
           name: copy into s3 bucket
           command: aws s3 cp /tmp/wikidata-gazetteer.csv s3://firstdraftgis/wikidata-gazetter.csv
 
