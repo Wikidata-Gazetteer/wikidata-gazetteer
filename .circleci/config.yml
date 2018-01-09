@@ -1,40 +1,40 @@
 version: 2
 jobs:
-  build-job:
-    docker:
-      - image: python:latest
-    steps:
-      - checkout
-      - run:
-          name: install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt      
-      - run:
-          name: create gazetteer
-          command: |
-            . venv/bin/activate
-            python3 create_gazetteer_from_wikidata.py         
-      - run:
-          name: run tests
+    build-job:
+        docker:
+            - image: python:latest
+        steps:
+            - checkout
+            - run:
+                name: install dependencies
+                command: |
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install -r requirements.txt      
+            - run:
+                name: create gazetteer
+                command: |
+                    . venv/bin/activate
+                    python3 create_gazetteer_from_wikidata.py         
+            - run:
+                name: run tests
 
-  deploy-job:
-    docker:
-      -image: python:latest
-    steps:
-      - run:
-          name: copy into s3 bucket
-          command: aws s3 cp /tmp/wikidata-gazetteer.csv s3://firstdraftgis/wikidata-gazetter.csv
+    deploy-job:
+        docker:
+            -image: python:latest
+        steps:
+            - run:
+                name: copy into s3 bucket
+                command: aws s3 cp /tmp/wikidata-gazetteer.csv s3://firstdraftgis/wikidata-gazetter.csv
 
 workflows:
-  version: 2
-  build-deploy:
-    jobs:
-      - build-job
-      - deploy-job:
-          requires:
+    version: 2
+    build-deploy:
+        jobs:
             - build-job
-          filters:
-            branches:
-              only: master
+            - deploy-job:
+                requires:
+                    - build-job
+                filters:
+                    branches:
+                        only: master
