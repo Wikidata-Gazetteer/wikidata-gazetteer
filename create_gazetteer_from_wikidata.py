@@ -6,7 +6,7 @@ from json import loads
 from urllib.request import urlopen
 from wg_utils import *
 
-number_of_chunks = 50
+number_of_chunks = 5000000000
 CHUNK = 16 * 1024
 
 decompressor = BZ2Decompressor()
