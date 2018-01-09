@@ -21,7 +21,7 @@ text = b""
 output_file = open("/tmp/wikidata-gazetteer.csv", "w")
 writer = writer(output_file, delimiter="\t", quotechar='"', quoting=QUOTE_ALL)
 
-skip = 81000
+skip = 0
 
 for n in range(number_of_chunks):
     
