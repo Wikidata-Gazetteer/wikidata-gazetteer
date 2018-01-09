@@ -23,7 +23,7 @@ writer = writer(output_file, delimiter="\t", quotechar='"', quoting=QUOTE_ALL)
 
 for n in range(number_of_chunks):
     
-    if n % 10000 == 0:
+    if n % 100 == 0:
         print("n:", n)
     
     chunk = req.read(CHUNK)
