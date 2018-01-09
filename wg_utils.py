@@ -62,17 +62,14 @@ def get_alternative_names_from_entity(entity, primary_name):
             name = safeget(labels, language, "value")
             if name and name != primary_name:
                 names.append(name)
-                print("appended: " + str(name))
     if "aliases" in entity:
         aliases = entity["aliases"]
         for language in aliases:
-            print("language:", language)
             aliases_for_language = aliases[language]
             for alias in aliases_for_language:
                 name = alias["value"]
                 if name and name != primary_name:
                     names.append(name)
-                    print(name)
     return ",".join([name for name in names if "," not in name])
 
 def get_prop(_dict, propid):
@@ -119,4 +116,12 @@ def get_instance_ofs(claims):
                 if ";" not in instance_of:
                     instance_ofs.add(instance_of)
     return "; ".join(list(instance_ofs))
+        
+def get_site_links(entity):
+    result = {}
+    if "sitelinks" in entity:
+        sitelinks = entity["sitelinks"]
+        for site in sitelinks:
+            result[site] = sitelinks[site]["title"]
+    return result
         

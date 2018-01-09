@@ -1,6 +1,7 @@
 from bz2 import BZ2Decompressor
 from csv import writer
 from csv import QUOTE_ALL
+from json import dumps
 from json import loads
 from urllib.request import urlopen
 from wg_utils import *
@@ -46,30 +47,26 @@ for n in range(number_of_chunks):
                 latitude, longitude = get_coords_from_claims(claims)
                 if latitude and longitude:
 
-                    print(entity)
-                    if "sitelinks" in entity:
-                        sitelinks = entity["sitelinks"]
-                        print("sitelinks:", sitelinks.keys())
-                    else:
-                        sitelinks = {}
-
+                    sitelinks = get_site_links(entity)
                     elevation = get_prop(claims, 2044)
                     geonames_id = get_prop(claims, 1566)
                     population = get_prop(claims, 1082)
                     country = get_prop(claims, 17)
-                    print("country:", country)
+                    #print("country:", country)
                     timezone = get_prop(claims, 421)
                     #wikidata_classes = get_prop(claims, 31)
                     wikidata_classes = get_instance_ofs(claims)
-                    print("wikidata_classes:", wikidata_classes)
-                    print("timezone:", timezone)
+                    #print("wikidata_classes:", wikidata_classes)
+                    #print("timezone:", timezone)
+                    enwiki_title = sitelinks.get("enwiki", "")
                     writer.writerow([
                         primary_name,
+                        enwiki_title,
                         alternative_names,
                         country,
                         wikidata_classes,
                         elevation,
-                        geonames_id,                        
+                        geonames_id,                       
                         latitude,
                         longitude,
                         population,
