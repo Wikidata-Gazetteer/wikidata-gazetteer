@@ -113,7 +113,7 @@ def get_instance_ofs(claims):
                 numeric_id_as_str = str(numeric_id)
                 qid = "Q" + numeric_id_as_str
                 instance_of = names.get(qid, numeric_id_as_str)
-                if ";" not in instance_of:
+                if instance_of and ";" not in instance_of:
                     instance_ofs.add(instance_of)
     return "; ".join(list(instance_ofs))
         
