@@ -26,7 +26,7 @@ jobs:
         steps:
             - run:
                 name: Install Dependencies
-                command: pip install awscli --upgrade --user
+                command: pip install awscli
             - run:
                 name: copy into s3 bucket
                 command: aws s3 cp /tmp/wikidata-gazetteer.csv s3://firstdraftgis/wikidata-gazetter.csv
