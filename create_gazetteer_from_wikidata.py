@@ -78,4 +78,9 @@ for n in range(number_of_chunks):
             text = text[index + 3:]
 
 req.close()
+print("closed network connection")
+
 output_file.close()
+print("closed output file")
+
+print("finished creating gazetteer")

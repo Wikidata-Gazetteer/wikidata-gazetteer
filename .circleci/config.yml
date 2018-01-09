@@ -19,3 +19,8 @@ jobs:
       - run:
           name: run tests
           command: echo "will write testing code later"
+deployment:
+  prod:
+    branch: master
+    commands:
+      - aws s3 cp /tmp/wikidata-gazetteer.csv s3://firstdraftgis/wikidata-gazetter.csv
