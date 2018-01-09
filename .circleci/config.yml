@@ -19,26 +19,9 @@ jobs:
             - run:
                 name: run tests
                 command: echo "will write tests later"
-
-    deploy-job:
-        docker:
-            - image: python:latest
-        steps:
             - run:
-                name: Install Dependencies
-                command: pip install awscli
+                name: Install AWS CLI
+                command: pip install awscli --upgrade
             - run:
                 name: copy into s3 bucket
                 command: aws s3 cp /tmp/wikidata-gazetteer.csv s3://firstdraftgis/wikidata-gazetter.csv
-
-workflows:
-    version: 2
-    build-deploy:
-        jobs:
-            - build-job
-            - deploy-job:
-                requires:
-                    - build-job
-                filters:
-                    branches:
-                        only: master
