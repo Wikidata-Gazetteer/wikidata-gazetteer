@@ -18,6 +18,7 @@ jobs:
                     python3 create_gazetteer_from_wikidata.py         
             - run:
                 name: run tests
+                command: echo "will write tests later"
 
     deploy-job:
         docker:
