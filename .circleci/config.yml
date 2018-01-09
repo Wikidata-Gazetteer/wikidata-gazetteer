@@ -1,0 +1,10 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: python:latest
+    steps:
+      - checkout
+      - run:
+          name: create gazetteer
+          command: python3 create_gazetteer.py
