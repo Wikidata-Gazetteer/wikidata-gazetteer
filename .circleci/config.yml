@@ -21,7 +21,7 @@ jobs:
 
     deploy-job:
         docker:
-            -image: python:latest
+            - image: python:latest
         steps:
             - run:
                 name: copy into s3 bucket
