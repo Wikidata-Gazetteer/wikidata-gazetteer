@@ -101,7 +101,7 @@ def get_entity_names(qids):
                 result[qid] = value
                 qid2name[qid] = value
         else:
-            print("[get_entity_names] entities not in " + response_json)
+            print("[get_entity_names] entities for " + str(qids_to_query) + " not in " + str(response_json))
             
     return result
        

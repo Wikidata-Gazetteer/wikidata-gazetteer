@@ -21,10 +21,15 @@ text = b""
 output_file = open("/tmp/wikidata-gazetteer.csv", "w")
 writer = writer(output_file, delimiter="\t", quotechar='"', quoting=QUOTE_ALL)
 
+skip = 81000
+
 for n in range(number_of_chunks):
     
     if n % 1000 == 0:
         print("n:", n)
+
+    if n <= skip:
+        continue
     
     chunk = req.read(CHUNK)
     if not chunk:
