@@ -1,9 +1,28 @@
+from config import *
 from json import loads
 from os.path import isfile
 from requests import get
+from SPARQLWrapper import SPARQLWrapper, JSON
 from urllib.request import urlretrieve
 
 qid2name = {}
+
+# returns something like {'Q792': 'El Salvador', 'Q822': 'Lebanon', 'Q1013': 'Lesotho'...}
+def get_countries():
+    sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
+    sparql.setQuery("""
+SELECT ?instance ?instanceLabel ?ISO_3166_2_code WHERE {
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+  ?instance wdt:P31 wd:Q6256.
+  OPTIONAL { ?instance wdt:P297 ?ISO_3166_2_code. }
+}
+LIMIT 300    
+    """)
+    sparql.setReturnFormat(JSON)
+    results = sparql.query().convert()
+    bindings = results["results"]["bindings"]
+    countries = dict([(i["instance"]["value"].split("/")[-1], {"name": i["instanceLabel"]["value"], "cc": i.get('ISO_3166_2_code',{}).get('value', None)}) for i in bindings])
+    return countries
 
 def safeget(dct, *keys):
     #print(dct)
@@ -77,6 +96,8 @@ def get_prop(_dict, propid):
     if isinstance(value, dict):
         if "amount" in value:
             return cast_if_necessary(value['amount'])
+        elif "id" in value:
+            return cast_if_necessary(value['id'])
     else:
         return cast_if_necessary(value)
  
@@ -97,7 +118,7 @@ def get_entity_names(qids):
         if "entities" in response_json:
             entities = response_json["entities"]
             for qid in entities:
-                value = safeget(response_json, qid, "labels", "en", "value")
+                value = safeget(entities, qid, "labels", "en", "value")
                 result[qid] = value
                 qid2name[qid] = value
         else:
@@ -110,7 +131,9 @@ def get_instance_ofs(claims):
     if "P31" in claims:
         P31 = claims["P31"]
         qids = ["Q" + str(safeget(v, "mainsnak", "datavalue", "value", "numeric-id")) for v in P31]
+        #print("qids:", qids)
         names = get_entity_names(qids)
+        #print("names:", names)
         for value in claims["P31"]:
             numeric_id = safeget(value, "mainsnak", "datavalue", "value", "numeric-id")
             if numeric_id:

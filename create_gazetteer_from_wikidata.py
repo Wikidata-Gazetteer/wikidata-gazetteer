@@ -6,8 +6,8 @@ from json import loads
 from urllib.request import urlopen
 from wg_utils import *
 
-number_of_chunks = 5000000000
-CHUNK = 16 * 1024
+# countries = {'Q792': 'El Salvador', 'Q822': 'Lebanon', 'Q1013': 'Lesotho'...
+countries = get_countries()
 
 decompressor = BZ2Decompressor()
 print("decompressor:", decompressor)
@@ -15,11 +15,25 @@ print("decompressor:", decompressor)
 req = urlopen('https://dumps.wikimedia.org/wikidatawiki/entities/latest-all.json.bz2')
 print("req:", req)
 
+with open(path_to_output, "w") as output_file:
+    csv_writer = writer(output_file, delimiter="\t", quotechar='"', quoting=QUOTE_ALL)
+    csv_writer.writerow([
+        "primary_name",
+        "enwiki_title",
+        "alternative_names",
+        "country",
+        "country_code",
+        "wikidata_classes",
+        "elevation",
+        "geonames_id",
+        "latitude",
+        "longitude",
+        "population"
+    ])
+    
 
 text = b""
 
-output_file = open("/tmp/wikidata-gazetteer.csv", "w")
-writer = writer(output_file, delimiter="\t", quotechar='"', quoting=QUOTE_ALL)
 
 skip = 0
 
@@ -60,26 +74,28 @@ for n in range(number_of_chunks):
                     elevation = get_prop(claims, 2044)
                     geonames_id = get_prop(claims, 1566)
                     population = get_prop(claims, 1082)
-                    country = get_prop(claims, 17)
-                    #print("country:", country)
+                    country = countries.get(get_prop(claims, 17), None)
+                    country_name = country.get("name", "")
+                    country_code = country.get("cc", "")
                     timezone = get_prop(claims, 421)
-                    #wikidata_classes = get_prop(claims, 31)
                     wikidata_classes = get_instance_ofs(claims)
-                    #print("wikidata_classes:", wikidata_classes)
-                    #print("timezone:", timezone)
                     enwiki_title = sitelinks.get("enwiki", "")
-                    writer.writerow([
-                        primary_name,
-                        enwiki_title,
-                        alternative_names,
-                        country,
-                        wikidata_classes,
-                        elevation,
-                        geonames_id,                       
-                        latitude,
-                        longitude,
-                        population,
-                    ])
+                    
+                    with open(path_to_output, "a") as output_file:
+                        csv_writer = writer(output_file, delimiter="\t", quotechar='"', quoting=QUOTE_ALL)
+                        csv_writer.writerow([
+                            primary_name,
+                            enwiki_title,
+                            alternative_names,
+                            country_name,
+                            country_code,
+                            wikidata_classes,
+                            elevation,
+                            geonames_id,                       
+                            latitude,
+                            longitude,
+                            population,
+                        ])
                     
                                     
 
@@ -88,8 +104,5 @@ for n in range(number_of_chunks):
 
 req.close()
 print("closed network connection")
-
-output_file.close()
-print("closed output file")
 
 print("finished creating gazetteer")

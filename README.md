@@ -7,10 +7,11 @@ https://s3.amazonaws.com/firstdraftgis/wikidata-gazetteer.csv
 ## columns
 | name              | description                            | example                               | 
 | ----------------- | -------------------------------------  | ------------------------------------- |
-| primary_name      | name, usually in English               | Georgia                               |
+| primary_name      | name, usually in English               | Armenia                               |
 | enwiki_title      | title of wikipedia article             | Georgia (country)                     |
 | alternative_names | aliases, acronymns and other names     | Грузи,জর্জিয়া,格鲁吉亚,Georgien,འཇོར་ཇི་ཡ,... |
-| country           | name of country                        |                                       |
+| country           | name of country                        | Germany                               |
+| country_code      | country code                           | FR                                    |
 | wikidata_classes  | place is an instance of these classes  |                                       |
 | elevation         | in raw units from wikidata             | 52.0                                  |
 | geonames_id       | id that corresponds to GeoNames record | 614540                                |
