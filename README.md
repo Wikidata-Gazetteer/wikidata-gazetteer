@@ -2,7 +2,7 @@
 Gazetteer of places mentioned in wikidata.org
 
 # download link
-https://s3.amazonaws.com/firstdraftgis/wikidata-gazetteer.csv
+https://s3.amazonaws.com/firstdraftgis/wikidata-gazetteer.tsv
 
 ## columns
 | name              | description                            | example                               | 
