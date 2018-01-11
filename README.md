@@ -5,18 +5,18 @@ Gazetteer of places mentioned in wikidata.org
 https://s3.amazonaws.com/firstdraftgis/wikidata-gazetteer.csv
 
 ## columns
-| name | description |
-| ----------------- | -------------------------------------  |
-| primary_name      | name, usually in English               |
-| enwiki_title      | title of wikipedia article             |
-| alternative_names | aliases, acronymns and other names     |
-| country           | name of country                        |
-| wikidata_classes  | place is an instance of these classes  |
-| elevation         | in raw units from wikidata             |
-| geonames_id       | id that corresponds to GeoNames record |
-| latitude          | latitude in decimal degrees            |
-| longitude         | longitude in decimal degrees           |
-| population        | population                             |
+| name              | description |                          | example                               | 
+| ----------------- | -------------------------------------  | ------------------------------------- |
+| primary_name      | name, usually in English               | Georgia                               |
+| enwiki_title      | title of wikipedia article             | Georgia (country)                     |
+| alternative_names | aliases, acronymns and other names     | Грузи,জর্জিয়া,格鲁吉亚,Georgien,འཇོར་ཇི་ཡ,... |
+| country           | name of country                        |                                       |
+| wikidata_classes  | place is an instance of these classes  |                                       |
+| elevation         | in raw units from wikidata             | 52.0                                  |
+| geonames_id       | id that corresponds to GeoNames record | 614540                                |
+| latitude          | latitude in decimal degrees            | 42.016669444444                       |
+| longitude         | longitude in decimal degrees           | 43.733330555556                       |
+| population        | population                             | 3729500.0                             |
 
 ## license 
 This code and gazetteer data is provided under a Public Domain License.  You can read the specific license here:
