@@ -12,7 +12,7 @@ https://s3.amazonaws.com/firstdraftgis/wikidata-gazetteer.csv
 | alternative_names | aliases, acronymns and other names     | Грузи,জর্জিয়া,格鲁吉亚,Georgien,འཇོར་ཇི་ཡ,... |
 | country           | name of country                        | Germany                               |
 | country_code      | country code                           | FR                                    |
-| wikidata_classes  | place is an instance of these classes  |                                       |
+| wikidata_classes  | place is an instance of these classes  | member state of the European Union; island nation; sovereign state; member state of the Council of Europe; member state of the United Nations; country |
 | elevation         | in raw units from wikidata             | 52.0                                  |
 | geonames_id       | id that corresponds to GeoNames record | 614540                                |
 | latitude          | latitude in decimal degrees            | 42.016669444444                       |
