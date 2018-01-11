@@ -5,7 +5,7 @@ Gazetteer of places mentioned in wikidata.org
 https://s3.amazonaws.com/firstdraftgis/wikidata-gazetteer.csv
 
 ## columns
-| name              | description |                          | example                               | 
+| name              | description                            | example                               | 
 | ----------------- | -------------------------------------  | ------------------------------------- |
 | primary_name      | name, usually in English               | Georgia                               |
 | enwiki_title      | title of wikipedia article             | Georgia (country)                     |
