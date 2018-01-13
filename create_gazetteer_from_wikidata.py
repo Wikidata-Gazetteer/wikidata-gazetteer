@@ -28,7 +28,8 @@ with open(path_to_output, "w") as output_file:
         "geonames_id",
         "latitude",
         "longitude",
-        "population"
+        "population",
+        "osm_id"
     ])
     
 
@@ -75,12 +76,13 @@ for n in range(number_of_chunks):
                     geonames_id = get_prop(claims, 1566)
                     population = get_prop(claims, 1082)
                     country = countries.get(get_prop(claims, 17), None)
-                    country_name = country.get("name", "")
-                    country_code = country.get("cc", "")
+                    country_name = country.get("name", "") if country else ""
+                    country_code = country.get("cc", "") if country else ""
                     timezone = get_prop(claims, 421)
                     wikidata_classes = get_instance_ofs(claims)
                     enwiki_title = sitelinks.get("enwiki", "")
-                    
+                    osm_id = get_prop(claims, 402) or ""
+
                     with open(path_to_output, "a") as output_file:
                         csv_writer = writer(output_file, delimiter="\t", quotechar='"', quoting=QUOTE_ALL)
                         csv_writer.writerow([
@@ -95,6 +97,7 @@ for n in range(number_of_chunks):
                             latitude,
                             longitude,
                             population,
+                            osm_id
                         ])
                     
                                     
