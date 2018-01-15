@@ -23,6 +23,10 @@ class TestDataMethods(unittest.TestCase):
         self.rows = rows
         self.num_rows = len(rows)
 
+    def test_wikidata_id(self):
+        percent = percent_truthy(self.rows, "wikidata_id")
+        self.assertGreaterEqual(percent, 0.99)
+
     def test_primary_names(self):
         percent = percent_truthy(self.rows, "primary_name")
         self.assertEqual(percent, 1)
@@ -69,7 +73,11 @@ class TestDataMethods(unittest.TestCase):
 
     def test_population(self):
         percent = percent_truthy(self.rows, "population")
-        self.assertGreaterEqual(percent, 0.25) 
+        self.assertGreaterEqual(percent, 0.25)
+        
+    def test_osm_id(self):
+        percent = percent_truthy(self.rows, "osm_id")
+        self.assertGreaterEqual(percent, 0.10)         
 
 if __name__ == '__main__':
     unittest.main()

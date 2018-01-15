@@ -18,6 +18,7 @@ print("req:", req)
 with open(path_to_output, "w") as output_file:
     csv_writer = writer(output_file, delimiter="\t", quotechar='"', quoting=QUOTE_ALL)
     csv_writer.writerow([
+        "wikidata_id",
         "primary_name",
         "enwiki_title",
         "alternative_names",
@@ -71,6 +72,7 @@ for n in range(number_of_chunks):
                 latitude, longitude = get_coords_from_claims(claims)
                 if latitude and longitude:
 
+                    wikidata_id = entity.get("id","")
                     sitelinks = get_site_links(entity)
                     elevation = get_prop(claims, 2044)
                     geonames_id = get_prop(claims, 1566)
@@ -86,6 +88,7 @@ for n in range(number_of_chunks):
                     with open(path_to_output, "a") as output_file:
                         csv_writer = writer(output_file, delimiter="\t", quotechar='"', quoting=QUOTE_ALL)
                         csv_writer.writerow([
+                            wikidata_id,
                             primary_name,
                             enwiki_title,
                             alternative_names,
