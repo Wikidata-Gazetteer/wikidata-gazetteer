@@ -79,7 +79,7 @@ def get_alternative_names_from_entity(entity, primary_name):
         for language in labels:
             label = labels[language]
             name = safeget(labels, language, "value")
-            if name and name != primary_name:
+            if name and name != primary_name and name not in names:
                 names.append(name)
     if "aliases" in entity:
         aliases = entity["aliases"]
@@ -87,7 +87,7 @@ def get_alternative_names_from_entity(entity, primary_name):
             aliases_for_language = aliases[language]
             for alias in aliases_for_language:
                 name = alias["value"]
-                if name and name != primary_name:
+                if name and name != primary_name and name not in names:
                     names.append(name)
     return ",".join([name for name in names if "," not in name])
 
