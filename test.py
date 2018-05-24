@@ -1,5 +1,6 @@
 from config import *
 import csv
+import pickle
 import unittest
 
 threshold = 10000
@@ -77,7 +78,17 @@ class TestDataMethods(unittest.TestCase):
         
     def test_osm_id(self):
         percent = percent_truthy(self.rows, "osm_id")
-        self.assertGreaterEqual(percent, 0.10)         
+        self.assertGreaterEqual(percent, 0.10)
+        
+    def test_place_titles(self):
+        with open(path_to_pickled_set, "rb") as f:
+            self.place_titles = pickle.load(f)
+            
+        self.assertGreaterEqual(len(self.place_titles), 1e6)
+        self.assertTrue("England" in self.place_titles)
+        self.assertTrue("england" not in self.place_titles)
+        self.assertTrue("the" not in self.place_titles)
+        self.assertTrue("New York City" in self.place_titles)
 
 if __name__ == '__main__':
     unittest.main()

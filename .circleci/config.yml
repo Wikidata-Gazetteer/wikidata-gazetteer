@@ -6,6 +6,12 @@ jobs:
         steps:
             - checkout
             - run:
+                name: Update System Packages
+                command: apt-get update
+            - run:
+                name: install system dependencies
+                command: apt-get install zip
+            - run:
                 name: install dependencies
                 command: |
                     python3 -m venv venv
@@ -15,7 +21,12 @@ jobs:
                 name: create gazetteer
                 command: |
                     . venv/bin/activate
-                    python3 create_gazetteer_from_wikidata.py         
+                    python3 create_gazetteer_from_wikidata.py
+            - run:
+                name: create set of place titles
+                command: |
+                    . venv/bin/activate
+                    python3 create_place_titles.py   
             - run:
                 name: run tests
                 command: echo "will write tests later"
@@ -23,5 +34,14 @@ jobs:
                 name: Install AWS CLI
                 command: pip install awscli --upgrade
             - run:
-                name: copy into s3 bucket
-                command: aws s3 cp /tmp/wikidata-gazetteer.csv s3://firstdraftgis/wikidata-gazetter.csv
+                name: Zip Pickled Python Set
+                command: zip -r /tmp/place_titles.pickle.zip /tmp/place_titles.pickle
+            - run:
+                name: Zip Gazetteer
+                command: zip -r /tmp/wikidata-gazetteer.tsv.zip /tmp/wikidata-gazetteer.tsv
+            - run:
+                name: Copy Pickled Set into S3 Bucket
+                command: aws s3 cp /tmp/place_titles.pickle.zip s3://firstdraftgis/place_titles.pickle.zip
+            - run:
+                name: Copy Gazetteer into S3 Bucket
+                command: aws s3 cp /tmp/wikidata-gazetteer.tsv.zip s3://firstdraftgis/wikidata-gazetteer.tsv.zip
