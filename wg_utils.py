@@ -106,7 +106,7 @@ def get_entity_names(qids):
     result = {}
     qids_to_query = []
     for qid in qids:
-        if qgis == "QNone":
+        if qid == "QNone":
             pass
         elif qid in qid2name:
             result[qid] = qid2name[qid]
