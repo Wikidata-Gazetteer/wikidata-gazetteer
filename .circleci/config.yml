@@ -10,7 +10,7 @@ jobs:
                 command: apt-get update
             - run:
                 name: install system dependencies
-                command: apt-get install zip
+                command: apt-get install -y zip
             - run:
                 name: install dependencies
                 command: |
