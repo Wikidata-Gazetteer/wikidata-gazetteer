@@ -41,7 +41,7 @@ jobs:
                 command: zip -r /tmp/wikidata-gazetteer.tsv.zip /tmp/wikidata-gazetteer.tsv
             - run:
                 name: Copy Pickled Set into S3 Bucket
-                command: aws s3 cp /tmp/place_titles.pickle.zip s3://firstdraftgis/place_titles.pickle.zip
+                command: aws s3 cp /tmp/place_titles.pickle.zip s3://firstdraftgis/place_titles.pickle.zip --acl public-read
             - run:
                 name: Copy Gazetteer into S3 Bucket
-                command: aws s3 cp /tmp/wikidata-gazetteer.tsv.zip s3://firstdraftgis/wikidata-gazetteer.tsv.zip
+                command: aws s3 cp /tmp/wikidata-gazetteer.tsv.zip s3://firstdraftgis/wikidata-gazetteer.tsv.zip --acl public-read
