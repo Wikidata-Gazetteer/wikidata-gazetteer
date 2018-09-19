@@ -5,7 +5,7 @@ Gazetteer of places mentioned in wikidata.org
 https://s3.amazonaws.com/firstdraftgis/wikidata-gazetteer.tsv.zip
 
 ## columns
-| name                | description                                | example                                | 
+| name                | description                                | example                                |
 | ------------------- | -----------------------------------------  | -------------------------------------- |
 | wikidata_id         | unique identifier (UID) used in Wikidata   | Q142                                   |
 | primary_name        | name, usually in English                   | Armenia                                |
@@ -20,8 +20,9 @@ https://s3.amazonaws.com/firstdraftgis/wikidata-gazetteer.tsv.zip
 | longitude           | longitude in decimal degrees               | 43.733330555556                        |
 | population          | population                                 | 3729500.0                              |
 | osm_id              | id in OpenStreetMap                        | 51477                                  |
+| astronomical_body   | name of planet, moon, or other body        | Mars                                   |
 
-## license 
+## license
 This code and gazetteer data is provided under a Public Domain License.  You can read the specific license here:
 https://creativecommons.org/publicdomain/zero/1.0/.  If you have any concerns, please don't hesitate to contact us and we'll address them promptly.
 

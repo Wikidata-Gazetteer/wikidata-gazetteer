@@ -9,6 +9,9 @@ from wg_utils import *
 # countries = {'Q792': 'El Salvador', 'Q822': 'Lebanon', 'Q1013': 'Lesotho'...
 countries = get_countries()
 
+# astronomical_bodies = {'Q405': 'Moon', 'Q313': 'Venus'}
+astronomical_bodies = {}
+
 decompressor = BZ2Decompressor()
 print("decompressor:", decompressor)
 
@@ -30,9 +33,10 @@ with open(path_to_output, "w") as output_file:
         "latitude",
         "longitude",
         "population",
-        "osm_id"
+        "osm_id",
+        "astronomical_body"
     ])
-    
+
 
 text = b""
 
@@ -40,13 +44,13 @@ text = b""
 skip = 0
 
 for n in range(number_of_chunks):
-    
+
     if n % 1000 == 0:
         print("n:", n)
 
     if n <= skip:
         continue
-    
+
     chunk = req.read(CHUNK)
     if not chunk:
         break
@@ -84,6 +88,12 @@ for n in range(number_of_chunks):
                     wikidata_classes = get_instance_ofs(claims)
                     enwiki_title = sitelinks.get("enwiki", "")
                     osm_id = get_prop(claims, 402) or ""
+                    body = get_prop(claims, 376) or "Earth"
+                    if body != "Earth":
+                        if body not in astronomical_bodies:
+                            for key, value in get_entity_names([body]).items():
+                                astronomical_bodies[key] = value
+                        body = astronomical_bodies.get(body, body)
 
                     with open(path_to_output, "a") as output_file:
                         csv_writer = writer(output_file, delimiter="\t", quotechar='"', quoting=QUOTE_ALL)
@@ -96,14 +106,15 @@ for n in range(number_of_chunks):
                             country_code,
                             wikidata_classes,
                             elevation,
-                            geonames_id,                       
+                            geonames_id,
                             latitude,
                             longitude,
                             population,
-                            osm_id
+                            osm_id,
+                            body
                         ])
-                    
-                                    
+
+
 
 
             text = text[index + 3:]
