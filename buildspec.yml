@@ -1,0 +1,10 @@
+# this file is used by AWS CodeBuild to build the gazetteer
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.7
+  build:
+    commands:
+       - bash build.sh
