@@ -3,6 +3,7 @@ from csv import writer
 from csv import QUOTE_ALL
 from json import dumps
 from json import loads
+from time import sleep
 from urllib.request import urlopen
 from wg_utils import *
 
@@ -36,7 +37,7 @@ with open(path_to_output, "w") as output_file:
         "osm_id",
         "astronomical_body"
     ])
-
+print("wrote header for " + path_to_output)
 
 text = b""
 
@@ -45,23 +46,28 @@ skip = 0
 
 for n in range(number_of_chunks):
 
-    if n % 1000 == 0:
+    if n < 10 or n % 1000 == 0:
         print("n:", n)
 
     if n <= skip:
         continue
 
+    sleep(2)
     chunk = req.read(CHUNK)
     if not chunk:
         break
     text += decompressor.decompress(chunk)
+    #print("text:", text)
     number_of_lines = text.count(b"\n")
     for n in range(number_of_lines):
         index = text.find(b"},\n")
+        print("-", end="", flush=True)
         if index == -1:
             break
         else:
-            entity = loads(text[:index + 1].replace(b"[\n", b"").decode("utf-8"))
+            entity_source_text = text[:index + 1].replace(b"[\n", b"").decode("utf-8")
+            #print(entity_source_text)
+            entity = loads(entity_source_text)
 
             entity_id = entity['id']
 

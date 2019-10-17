@@ -1,16 +1,28 @@
 # exit on the first error found
 set -o errexit
 
-echo "Installing sudo"
-apt-get install sudo
+green=$'\e[1;32m'
+end=$'\e[0m'
 
-echo "Update Package Lists"
-sudo apt-get update -qq
+log () {
+    printf "${green}[wikidata-gazetteer] ${1}${end}\n"
+}
 
-echo "Install System Dependencies"
-sudo apt-get install -y zip
+if ! type "sudo" > /dev/null; then
+    log "installing sudo"
+    apt-get install sudo
+fi
 
-echo "Create and Enter Python Virtual Environment"
+log "Update Package Lists"
+sudo apt-get update
+
+log "Install System Dependencies"
+sudo apt-get install -y pylint python3-venv zip
+
+log "Clear out Previous Python Virtual Environment if it Exists"
+rm -fr venv
+
+log "Create and Enter Python Virtual Environment"
 python3 -m venv venv
 source ./venv/bin/activate
 
